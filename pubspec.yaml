@@ -1,0 +1,51 @@
+name: shortify
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.3
+  flutter_slidable: ^0.5.5
+  provider: ^4.3.1
+  share: ^0.6.4+3
+  clipboard_manager: ^0.0.4
+  url_launcher: ^5.5.0
+  string_validator: ^0.1.4
+  http: ^0.12.2
+  loading_indicator: ^1.2.0
+  connectivity: ^0.4.9
+  awesome_dialog: ^1.1.3
+  pie_chart: ^3.1.1
+  flutter_svg: ^0.17.4
+  carousel_slider: ^2.2.1
+  flip_card: ^0.4.4
+  flutter_emoji: ">= 2.0.0"
+  emojis: ^0.9.3
+  country_icons: ^1.1.1
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+
+  uses-material-design: true
+  assets:
+    - icons/
+  fonts:
+    - family: Sen
+      fonts:
+        - asset: fonts/Sen-Regular.ttf
+        - asset: fonts/Sen-ExtraBold.ttf
+          weight: 900
+        - asset: fonts/Sen-Bold.ttf
+          weight: 700
+
+  
