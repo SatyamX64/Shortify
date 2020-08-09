@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:provider/provider.dart';
-import 'package:shortify/Data/data_repository.dart';
-import 'package:shortify/Models/url_model.dart';
+import 'package:shortify/Models/url.dart';
 import 'package:shortify/Network/network.dart';
 import 'package:shortify/Theme/theme_data.dart';
 import 'package:shortify/Widgets/error_box.dart';
@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   bool _loading = false;
   @override
   Widget build(BuildContext context) {
-    final dataRepository = Provider.of<DataRepository>(context);
     final size = MediaQuery.of(context).size;
     final _formKey = GlobalKey<FormState>();
     final networkLoader = NetworkLoader();
@@ -125,13 +124,13 @@ class _HomePageState extends State<HomePage> {
                                   setState(() {
                                     _loading = false;
                                   });
-                                  print(response);
                                   if (response.statusCode == 200) {
                                     final data = jsonDecode(response.body);
                                     int status = data['url']['status'];
                                     if (status == 7) {
-                                      //Status 7 Means Success in this API
-                                      dataRepository.addData(
+                                      //Status 7 Means Success in this API Call
+                                      var box = Hive.box('urls');
+                                      box.add(
                                         URL(
                                           longURL: data['url']['fullLink'],
                                           shortURL: data['url']['shortLink'],
@@ -182,17 +181,27 @@ class _HomePageState extends State<HomePage> {
               ),
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return URLCard(index);
-                },
-                childCount: dataRepository.dataList.length,
-              ),
-            ),
+            _buildListView(),
           ],
         ),
       ),
     );
   }
+}
+
+Widget _buildListView() {
+  return ValueListenableBuilder(
+    valueListenable: Hive.box('urls').listenable(),
+    builder: (context,box,_) {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            final url = box.getAt(index) as URL;
+            return URLCard(url);
+          },
+          childCount: box.length,
+        ),
+      );
+    },
+  );
 }

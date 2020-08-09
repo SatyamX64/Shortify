@@ -28,7 +28,7 @@ class FrontCardCarouselChild extends StatelessWidget {
               height: size.width / 12,
               child: SvgPicture.asset('icons/$icon.svg'),
             ),
-            Text(clicks==0?'0':'${(value/clicks*100).toStringAsFixed(0)}%',
+            Text(clicks==0 || value==null?'0':'${(value/clicks*100).toStringAsFixed(0)}%',
               // value.toString(),
               style: TextStyle(
                   color: color,

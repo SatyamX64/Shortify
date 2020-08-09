@@ -3,16 +3,23 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:shortify/Analytics/analytics.dart';
-import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'package:shortify/Data/data_repository.dart';
+import 'package:shortify/Models/url.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 class URLCard extends StatelessWidget {
-  final int index;
-  URLCard(this.index);
+  final URL url;
+  URLCard(this.url);
   @override
   Widget build(BuildContext context) {
-    final dataRepository = Provider.of<DataRepository>(context);
+    Future<void> launchURL() async {
+      if (await url_launcher.canLaunch(url.shortURL)) {
+        await url_launcher.launch(url.shortURL);
+      } else {
+        throw 'Could not launch ${url.shortURL}';
+      }
+    }
+
     final size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -23,21 +30,19 @@ class URLCard extends StatelessWidget {
         child: Card(
           child: ListTile(
             title: Text(
-              '${dataRepository.dataList[index].title}',
+              '${url.title}',
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontSize: size.height / 45, fontWeight: FontWeight.w700),
             ),
-            subtitle: Text('${dataRepository.dataList[index].shortURL}'),
+            subtitle: Text('${url.shortURL}'),
             trailing: IconButton(
                 icon: Icon(
                   Icons.content_paste,
                   color: Colors.black54,
                 ),
                 onPressed: () {
-                  ClipboardManager.copyToClipBoard(
-                          dataRepository.dataList[index].shortURL)
-                      .then((result) {
+                  ClipboardManager.copyToClipBoard(url.shortURL).then((result) {
                     final snackBar = SnackBar(
                       backgroundColor: Colors.blue,
                       content: Text(
@@ -58,7 +63,7 @@ class URLCard extends StatelessWidget {
             caption: 'Go to URL',
             color: Colors.blue,
             icon: Icons.open_in_new,
-            onTap: () => dataRepository.launchURL(index),
+            onTap: () => launchURL(),
           ),
           IconSlideAction(
             caption: 'Share',
@@ -66,8 +71,7 @@ class URLCard extends StatelessWidget {
             icon: Icons.share,
             onTap: () {
               final RenderBox box = context.findRenderObject();
-              Share.share(
-                  '${dataRepository.dataList[index].title} : ${dataRepository.dataList[index].shortURL}',
+              Share.share('${url.title} : ${url.shortURL}',
                   subject: 'URL Shortener',
                   sharePositionOrigin:
                       box.localToGlobal(Offset.zero) & box.size);
@@ -97,15 +101,18 @@ class URLCard extends StatelessWidget {
               } else
                 Analytics(
                   context: context,
-                  url: dataRepository.dataList[index].shortURL,
+                  url: url.shortURL,
                 )..show();
             },
           ),
           IconSlideAction(
-              caption: 'Delete',
-              color: Colors.red,
-              icon: Icons.delete,
-              onTap: () => dataRepository.delete(index)),
+            caption: 'Delete',
+            color: Colors.red,
+            icon: Icons.delete,
+            onTap: () async {
+              await url.delete();
+            },
+          ),
         ],
       ),
     );
