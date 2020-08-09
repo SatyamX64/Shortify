@@ -29,6 +29,7 @@ dependencies:
   flutter_emoji: ">= 2.0.0"
   emojis: ^0.9.3
   country_icons: ^1.1.1
+  lottie: ^0.5.1
   
 
 dev_dependencies:
@@ -39,6 +40,7 @@ flutter:
   uses-material-design: true
   assets:
     - icons/
+    - lottie/
   fonts:
     - family: Sen
       fonts:

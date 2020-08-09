@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class BackCardCarousel extends StatelessWidget {
   final Map map;
@@ -22,7 +23,13 @@ class BackCardCarousel extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 12),
-            child: ListView.separated(
+            child: map.length==0?Center(child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Lottie.asset('lottie/analytics-bot.json'),
+                Text('Not Enough Data for Analyisis',style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.center,)
+              ],
+            )):ListView.separated(
                 itemBuilder: (_, index) {
                   String key = map.keys.elementAt(index);
                   return Card(

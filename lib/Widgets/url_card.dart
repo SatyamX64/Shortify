@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:shortify/Data/data_repository.dart';
 
-
 class URLCard extends StatelessWidget {
   final int index;
   URLCard(this.index);
@@ -25,6 +24,7 @@ class URLCard extends StatelessWidget {
           child: ListTile(
             title: Text(
               '${dataRepository.dataList[index].title}',
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontSize: size.height / 45, fontWeight: FontWeight.w700),
             ),

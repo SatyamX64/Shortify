@@ -115,12 +115,13 @@ class _HomePageState extends State<HomePage> {
                                   setState(() {
                                     _loading = true;
                                   });
-                                  print('YO');
                                   Response response =
                                       await networkLoader.shortenURL(
-                                          url: urlController.text,
+                                          url: urlController.text
+                                                  .contains('https')
+                                              ? urlController.text
+                                              : 'https://' + urlController.text,
                                           customCode: customController.text);
-                                  print('PO');
                                   setState(() {
                                     _loading = false;
                                   });

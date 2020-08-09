@@ -3,7 +3,9 @@ import 'package:shortify/Models/url_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DataRepository extends ChangeNotifier {
-  List<URL> dataList = [];
+  List<URL> dataList = [
+    URL(longURL: 'https://www.google.com',title: 'Sample Data',shortURL: 'https://cutt.ly/5dDAfYi'),
+  ];
   delete(int index) {
     dataList.removeAt(index);
     notifyListeners();
