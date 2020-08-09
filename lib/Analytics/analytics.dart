@@ -3,6 +3,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shortify/Analytics/back_card.dart';
 import 'package:shortify/Data/data_loader.dart';
 import 'package:shortify/Network/network.dart';
@@ -90,13 +91,14 @@ class Analytics {
                   height: size.height * 0.75,
                   width: size.width * 0.75,
                   alignment: Alignment.center,
-                  child: SizedBox(
-                    height: size.height / 15,
-                    child: LoadingIndicator(
-                      indicatorType: Indicator.ballRotateChase,
-                      color: Colors.grey,
-                    ),
-                  ),
+                  child: SizedBox(width: size.width*0.5,child: Lottie.asset('lottie/loading.json')),
+                  // child: SizedBox(
+                  //   height: size.height / 15,
+                  //   child: LoadingIndicator(
+                  //     indicatorType: Indicator.ballRotateChase,
+                  //     color: Colors.grey,
+                  //   ),
+                  // ),
                 ),
               );
           },
