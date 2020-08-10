@@ -1,3 +1,4 @@
+import 'package:animated_splash/animated_splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -5,7 +6,6 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'Models/url.dart';
 import 'Widgets/homepage.dart';
 import 'Theme/theme_data.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +37,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: themeData,
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: HomePage(),),
+      home: Scaffold(
+            body: HomePage(),
+          )
     );
   }
 
@@ -47,5 +49,3 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 }
-
-
