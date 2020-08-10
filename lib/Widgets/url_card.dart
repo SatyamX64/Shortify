@@ -1,4 +1,4 @@
-import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -42,7 +42,7 @@ class URLCard extends StatelessWidget {
                   color: Colors.black54,
                 ),
                 onPressed: () {
-                  ClipboardManager.copyToClipBoard(url.shortURL).then((result) {
+                    FlutterClipboard.copy(url.shortURL).then((result) {
                     final snackBar = SnackBar(
                       backgroundColor: Colors.blue,
                       content: Text(

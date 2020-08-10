@@ -16,7 +16,7 @@ dependencies:
   animated_splash: ^1.0.0
   provider: ^4.3.1
   share: ^0.6.4+3
-  clipboard_manager: ^0.0.4
+  clipboard: ^0.1.2+8
   url_launcher: ^5.5.0
   string_validator: ^0.1.4
   http: ^0.12.2
@@ -54,5 +54,9 @@ flutter:
           weight: 900
         - asset: fonts/Sen-Bold.ttf
           weight: 700
+    - family: Purple
+      fonts:
+        - asset: fonts/PurplePurse-Regular.ttf
+            
 
   
