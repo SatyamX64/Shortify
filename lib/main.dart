@@ -23,6 +23,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+  void initState() {
+    super.initState();
+    addDemoData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -35,12 +41,11 @@ class _MyAppState extends State<MyApp> {
       systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
     ));
     return MaterialApp(
-      theme: themeData,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-            body: HomePage(),
-          )
-    );
+        theme: themeData,
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: HomePage(),
+        ));
   }
 
   @override
@@ -48,4 +53,15 @@ class _MyAppState extends State<MyApp> {
     Hive.close();
     super.dispose();
   }
+}
+
+// For Demo Purpose Only
+void addDemoData() {
+  var box = Hive.box('urls');
+  box.add(
+    URL(
+        longURL: 'https://www.google.com',
+        shortURL: 'https://cutt.ly/5dDAfYi',
+        title: 'For Demo'),
+  );
 }
