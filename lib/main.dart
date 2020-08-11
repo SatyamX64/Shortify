@@ -1,4 +1,3 @@
-import 'package:animated_splash/animated_splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';

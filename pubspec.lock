@@ -15,13 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.39.16"
-  animated_splash:
-    dependency: "direct main"
-    description:
-      name: animated_splash
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   archive:
     dependency: transitive
     description:
@@ -307,13 +300,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_emoji:
-    dependency: "direct main"
-    description:
-      name: flutter_emoji
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.1+1"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -471,13 +457,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.6+3"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.4"
   node_interop:
     dependency: transitive
     description:
@@ -604,13 +583,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.13"
-  provider:
-    dependency: "direct main"
-    description:
-      name: provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.3.1"
   pub_semver:
     dependency: transitive
     description:

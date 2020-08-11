@@ -13,8 +13,6 @@ dependencies:
 
   cupertino_icons: ^0.1.3
   flutter_slidable: ^0.5.5
-  animated_splash: ^1.0.0
-  provider: ^4.3.1
   share: ^0.6.4+3
   clipboard: ^0.1.2+8
   url_launcher: ^5.5.0
@@ -27,7 +25,6 @@ dependencies:
   flutter_svg: ^0.18.0
   carousel_slider: ^2.2.1
   flip_card: ^0.4.4
-  flutter_emoji: ">= 2.0.0"
   emojis: ^0.9.3
   country_icons: ^1.1.1
   lottie: ^0.5.1
