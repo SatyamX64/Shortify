@@ -34,10 +34,13 @@ class _HomePageState extends State<HomePage> {
           slivers: [
             SliverAppBar(
               centerTitle: true,
+              backgroundColor: kPurple,
               title: Text(
-                'URL Shortener',
+                'Shortify',
                 style: TextStyle(
-                    fontWeight: FontWeight.w900, fontSize: size.width / 15),
+                    fontWeight: FontWeight.w900,
+                    fontSize: size.width / 12,
+                    fontFamily: 'Purple'),
               ),
             ),
             SliverList(
@@ -88,7 +91,9 @@ class _HomePageState extends State<HomePage> {
                       height: size.height / 24,
                       child: _loading == true
                           ? RaisedButton(
-                              color: Colors.blue,
+                              color: kPurple,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6)),
                               child: LoadingIndicator(
                                 indicatorType: Indicator.ballPulse,
                                 color: Colors.white,
@@ -97,6 +102,9 @@ class _HomePageState extends State<HomePage> {
                                   () {}, // Pressing Button while Loading should not do anything
                             )
                           : RaisedButton(
+                              color: kPurple,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
                               child: Text(
                                 'Create Short URL',
                                 style: TextStyle(
@@ -148,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                                     ConnectivityResult.none) {
                                   Scaffold.of(context).showSnackBar(
                                     SnackBar(
-                                      backgroundColor: Colors.blue,
+                                      backgroundColor: kPurple,
                                       content: Text(
                                         'That thing needs an Active Connection',
                                         style: TextStyle(
@@ -160,7 +168,6 @@ class _HomePageState extends State<HomePage> {
                                   );
                                 }
                               },
-                              color: Colors.blue,
                             ),
                     ),
                   ),
@@ -175,7 +182,7 @@ class _HomePageState extends State<HomePage> {
               title: Text(
                 'Shortened URLs',
                 style: TextStyle(
-                    color: Colors.blue,
+                    color: kPurple,
                     fontWeight: FontWeight.w900,
                     fontSize: size.height / 36),
               ),
@@ -192,7 +199,7 @@ class _HomePageState extends State<HomePage> {
 Widget _buildListView() {
   return ValueListenableBuilder(
     valueListenable: Hive.box('urls').listenable(),
-    builder: (context,box,_) {
+    builder: (context, box, _) {
       return SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {

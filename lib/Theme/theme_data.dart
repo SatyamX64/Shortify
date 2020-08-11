@@ -6,7 +6,7 @@ ThemeData themeData = ThemeData(
     filled: true,
     isDense: true,
     border: OutlineInputBorder(
-      borderSide: BorderSide(width: 0.2), 
+      borderSide: BorderSide(width: 0.2),
     ),
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Color(0xFF707070), width: 0.5),
@@ -28,3 +28,5 @@ TextStyle kTextFieldContentStyle = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w700,
 );
+
+Color kPurple = Color(0xFF592A63);

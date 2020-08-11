@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.blue, //top bar color
+      statusBarColor: kPurple, //top bar color
       statusBarIconBrightness: Brightness.light, //top bar icons
       systemNavigationBarColor: Colors.white, //bottom bar color
       systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons

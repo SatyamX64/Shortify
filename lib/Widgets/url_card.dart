@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:shortify/Analytics/analytics.dart';
 import 'package:share/share.dart';
 import 'package:shortify/Models/url.dart';
+import 'package:shortify/Theme/theme_data.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 class URLCard extends StatelessWidget {
@@ -23,39 +24,52 @@ class URLCard extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: size.width / 360, vertical: size.width / 360),
+          horizontal: size.width / 90, vertical: size.width / 360),
       child: Slidable(
         actionPane: SlidableScrollActionPane(),
         actionExtentRatio: 0.25,
         child: Card(
-          child: ListTile(
-            title: Text(
-              '${url.title}',
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  fontSize: size.height / 45, fontWeight: FontWeight.w700),
-            ),
-            subtitle: Text('${url.shortURL}'),
-            trailing: IconButton(
-                icon: Icon(
-                  Icons.content_paste,
-                  color: Colors.black54,
-                ),
-                onPressed: () {
-                    FlutterClipboard.copy(url.shortURL).then((result) {
-                    final snackBar = SnackBar(
-                      backgroundColor: Colors.blue,
-                      content: Text(
-                        'Copied to Clipboard',
-                        style: TextStyle(
-                            fontFamily: 'Sen',
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
+          child: Row(
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                height: 75,
+                color: kPurple,
+                width: 10,
+              ),
+              Expanded(
+                child: ListTile(
+                  title: Text(
+                    '${url.title}',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: size.height / 45,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  subtitle: Text('${url.shortURL}'),
+                  trailing: IconButton(
+                      icon: Icon(
+                        Icons.content_paste,
+                        color: Colors.black54,
                       ),
-                    );
-                    Scaffold.of(context).showSnackBar(snackBar);
-                  });
-                }),
+                      onPressed: () {
+                        FlutterClipboard.copy(url.shortURL).then((result) {
+                          final snackBar = SnackBar(
+                            backgroundColor: Colors.blue,
+                            content: Text(
+                              'Copied to Clipboard',
+                              style: TextStyle(
+                                  fontFamily: 'Sen',
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white),
+                            ),
+                          );
+                          Scaffold.of(context).showSnackBar(snackBar);
+                        });
+                      }),
+                ),
+              ),
+            ],
           ),
         ),
         actions: <Widget>[
