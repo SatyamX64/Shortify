@@ -9,8 +9,8 @@ import 'package:shortify/Analytics/front_card_carousel.dart';
 class FrontCard extends StatelessWidget {
   const FrontCard({
     Key key,
-    @required this.dataLoader,
-    @required this.cardKey,
+    this.dataLoader,
+    this.cardKey,
   }) : super(key: key);
 
   final DataLoader dataLoader;

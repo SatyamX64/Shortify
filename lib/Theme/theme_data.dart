@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData themeData = ThemeData(
   fontFamily: 'Sen',
+  primaryColor: kPurple,
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     isDense: true,

@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    addDemoData();
+    // addDemoData();
   }
 
   @override
@@ -59,8 +59,8 @@ void addDemoData() {
   var box = Hive.box('urls');
   box.add(
     URL(
-        longURL: 'https://www.google.com',
-        shortURL: 'https://cutt.ly/5dDAfYi',
-        title: 'For Demo'),
+        longURL: 'https://www.github.com/satyamx64',
+        shortURL: 'https://cutt.ly/satyamx64',
+        title: 'My Github'),
   );
 }

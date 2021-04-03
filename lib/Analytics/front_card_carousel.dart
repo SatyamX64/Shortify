@@ -4,7 +4,7 @@ import 'package:shortify/Analytics/front_card_carousel_child.dart';
 class FrontCardCarousel extends StatelessWidget {
   const FrontCardCarousel(
       {Key key,
-      @required this.size,
+      this.size,
       this.clicks,
       this.icon1,
       this.icon2,
@@ -18,9 +18,9 @@ class FrontCardCarousel extends StatelessWidget {
       : super(key: key);
 
   final Size size;
-  final icon1, icon2, icon3;
-  final stat1, stat2, stat3,clicks;
-  final title1, title2, title3;
+  final String icon1, icon2, icon3;
+  final int stat1, stat2, stat3,clicks;
+  final String title1, title2, title3;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +34,7 @@ class FrontCardCarousel extends StatelessWidget {
             value: stat1,
             title: title1,
             color: Color(0xFFa29bfe),
-            clicks: int.parse(clicks),
+            clicks: clicks,
           ),
           // SizedBox(
           //   width: size.width / 36,
@@ -44,7 +44,7 @@ class FrontCardCarousel extends StatelessWidget {
             value: stat2,
             title: title2,
             color: Color(0xFFff7675),
-            clicks: int.parse(clicks),
+            clicks: clicks,
           ),
           // SizedBox(
           //   width: size.width / 36,
@@ -54,7 +54,7 @@ class FrontCardCarousel extends StatelessWidget {
             value: stat3,
             title: title3,
             color: Color(0xFFa29bfe),
-            clicks: int.parse(clicks),
+            clicks: clicks,
           ),
         ],
       ),

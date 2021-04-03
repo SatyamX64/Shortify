@@ -19,6 +19,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _loading = false;
+  final FocusScopeNode _node = FocusScopeNode();
+  @override
+  void dispose() {
+    _node.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -27,169 +34,179 @@ class _HomePageState extends State<HomePage> {
     final urlController = TextEditingController();
     final titleController = TextEditingController();
     final customController = TextEditingController();
+
+    Function onSubmit = () async {
+      var connectivityResult = await (Connectivity()
+          .checkConnectivity()); // Checks If Internet is Available
+      if (_formKey.currentState.validate() &&
+          connectivityResult != ConnectivityResult.none) {
+        setState(() {
+          _loading = true;
+        });
+        Response response = await networkLoader.shortenURL(
+            url: urlController.text.contains('https')
+                ? urlController.text
+                : 'https://' + urlController.text,
+            customCode: customController.text);
+        setState(() {
+          _loading = false;
+        });
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+          int status = data['url']['status'];
+          if (status == 7) {
+            //Status 7 Means Success in this API Call
+            var box = Hive.box('urls');
+            box.add(
+              URL(
+                longURL: data['url']['fullLink'],
+                shortURL: data['url']['shortLink'],
+                title: titleController.text.length < 1
+                    ? data['url']['title']
+                    : titleController.text,
+              ),
+            );
+          } else
+            errorBox(context: context, status: status);
+        } else
+          errorBox(context: context, status: 8);
+      } else if (connectivityResult == ConnectivityResult.none) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: kPurple,
+            content: Text(
+              'That thing needs an Active Connection',
+              style: TextStyle(
+                  fontFamily: 'Sen',
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white),
+            ),
+          ),
+        );
+      }
+    };
     return SafeArea(
       child: Form(
         key: _formKey,
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              centerTitle: true,
-              backgroundColor: kPurple,
-              title: Text(
-                'Shortify',
-                style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: size.width / 12,
-                    fontFamily: 'Purple'),
+        child: FocusScope(
+          node: _node,
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                centerTitle: true,
+                backgroundColor: kPurple,
+                title: Text(
+                  'Shortify',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: size.width / 12,
+                      fontFamily: 'Purple'),
+                ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate.fixed(
-                [
-                  SizedBox(height: size.height / 72),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width / 36),
-                    child: TextFormField(
-                      controller: urlController,
-                      enabled: !_loading,
-                      decoration: InputDecoration(hintText: 'Enter Long URL'),
-                      validator: (value) => isURL(value) ? null : 'Invalid URL',
-                      style: kTextFieldContentStyle,
+              SliverList(
+                delegate: SliverChildListDelegate.fixed(
+                  [
+                    SizedBox(height: size.height / 72),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: size.width / 36),
+                      child: TextFormField(
+                        controller: urlController,
+                        enabled: !_loading,
+                        textInputAction: TextInputAction.next,
+                        onEditingComplete: _node.nextFocus,
+                        decoration: InputDecoration(hintText: 'Enter Long URL'),
+                        validator: (value) =>
+                            isURL(value) ? null : 'Invalid URL',
+                        style: kTextFieldContentStyle,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height / 36,
-                  ),
-                  Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: size.width / 36),
-                      child: TextFormField(
-                        controller: titleController,
-                        enabled: !_loading,
-                        decoration: InputDecoration(hintText: 'Enter Title'),
-                        style: kTextFieldContentStyle,
-                      )),
-                  SizedBox(
-                    height: size.height / 36,
-                  ),
-                  Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: size.width / 36),
-                      child: TextFormField(
-                        controller: customController,
-                        enabled: !_loading,
-                        decoration:
-                            InputDecoration(hintText: 'Enter Custom Code'),
-                        style: kTextFieldContentStyle,
-                      )),
-                  SizedBox(
-                    height: size.height / 36,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width / 4),
-                    child: SizedBox(
-                      height: size.height / 24,
-                      child: _loading == true
-                          ? RaisedButton(
-                              color: kPurple,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6)),
-                              child: LoadingIndicator(
-                                indicatorType: Indicator.ballPulse,
-                                color: Colors.white,
-                              ),
-                              onPressed:
-                                  () {}, // Pressing Button while Loading should not do anything
-                            )
-                          : RaisedButton(
-                              color: kPurple,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text(
-                                'Create Short URL',
-                                style: TextStyle(
+                    SizedBox(
+                      height: size.height / 36,
+                    ),
+                    Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: size.width / 36),
+                        child: TextFormField(
+                          controller: titleController,
+                          enabled: !_loading,
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: _node.nextFocus,
+                          decoration: InputDecoration(hintText: 'Enter Title'),
+                          style: kTextFieldContentStyle,
+                        )),
+                    SizedBox(
+                      height: size.height / 36,
+                    ),
+                    Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: size.width / 36),
+                        child: TextFormField(
+                          controller: customController,
+                          enabled: !_loading,
+                          textInputAction: TextInputAction.done,
+                          onFieldSubmitted: (_) async {
+                            await onSubmit();
+                          },
+                          decoration:
+                              InputDecoration(hintText: 'Enter Custom Code'),
+                          style: kTextFieldContentStyle,
+                        )),
+                    SizedBox(
+                      height: size.height / 36,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: size.width / 4),
+                      child: SizedBox(
+                        height: size.height / 24,
+                        child: _loading == true
+                            ? RaisedButton(
+                                color: kPurple,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6)),
+                                child: LoadingIndicator(
+                                  indicatorType: Indicator.ballPulse,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: size.width / 24,
                                 ),
+                                onPressed:
+                                    () {}, // Pressing Button while Loading should not do anything
+                              )
+                            : RaisedButton(
+                                color: kPurple,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Text(
+                                  'Create Short URL',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: size.width / 24,
+                                  ),
+                                ),
+                                onPressed: onSubmit,
                               ),
-                              onPressed: () async {
-                                var connectivityResult = await (Connectivity()
-                                    .checkConnectivity()); // Checks If Internet is Available
-                                if (_formKey.currentState.validate() &&
-                                    connectivityResult !=
-                                        ConnectivityResult.none) {
-                                  setState(() {
-                                    _loading = true;
-                                  });
-                                  Response response =
-                                      await networkLoader.shortenURL(
-                                          url: urlController.text
-                                                  .contains('https')
-                                              ? urlController.text
-                                              : 'https://' + urlController.text,
-                                          customCode: customController.text);
-                                  setState(() {
-                                    _loading = false;
-                                  });
-                                  if (response.statusCode == 200) {
-                                    final data = jsonDecode(response.body);
-                                    int status = data['url']['status'];
-                                    if (status == 7) {
-                                      //Status 7 Means Success in this API Call
-                                      var box = Hive.box('urls');
-                                      box.add(
-                                        URL(
-                                          longURL: data['url']['fullLink'],
-                                          shortURL: data['url']['shortLink'],
-                                          title: titleController.text.length < 1
-                                              ? data['url']['title']
-                                              : titleController.text,
-                                        ),
-                                      );
-                                    } else
-                                      errorBox(
-                                          context: context, status: status);
-                                  } else
-                                    errorBox(context: context, status: 8);
-                                } else if (connectivityResult ==
-                                    ConnectivityResult.none) {
-                                  Scaffold.of(context).showSnackBar(
-                                    SnackBar(
-                                      backgroundColor: kPurple,
-                                      content: Text(
-                                        'That thing needs an Active Connection',
-                                        style: TextStyle(
-                                            fontFamily: 'Sen',
-                                            fontWeight: FontWeight.w700,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height / 36,
-                  ),
-                ],
+                    SizedBox(
+                      height: size.height / 36,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SliverAppBar(
-              pinned: true,
-              title: Text(
-                'Shortened URLs',
-                style: TextStyle(
-                    color: kPurple,
-                    fontWeight: FontWeight.w900,
-                    fontSize: size.height / 36),
+              SliverAppBar(
+                pinned: true,
+                title: Text(
+                  'Shortened URLs',
+                  style: TextStyle(
+                      color: kPurple,
+                      fontWeight: FontWeight.w900,
+                      fontSize: size.height / 36),
+                ),
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               ),
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            ),
-            _buildListView(),
-          ],
+              _buildListView(),
+            ],
+          ),
         ),
       ),
     );

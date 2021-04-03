@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shortify/Analytics/back_card.dart';
 import 'package:shortify/Data/data_loader.dart';
@@ -13,7 +12,7 @@ class Analytics {
   final String url;
   final context;
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-  Analytics({@required this.url, @required this.context});
+  Analytics({this.url,this.context});
   final networkLoader = NetworkLoader();
   Future<void> show() async {
     return showDialog(
