@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
         } else
           errorBox(context: context, status: 8);
       } else if (connectivityResult == ConnectivityResult.none) {
-        Scaffold.of(context).showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: kPurple,
             content: Text(
@@ -160,10 +160,12 @@ class _HomePageState extends State<HomePage> {
                       child: SizedBox(
                         height: size.height / 24,
                         child: _loading == true
-                            ? RaisedButton(
-                                color: kPurple,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6)),
+                            ? ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: kPurple,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6)),
+                                ),
                                 child: LoadingIndicator(
                                   indicatorType: Indicator.ballPulse,
                                   color: Colors.white,
@@ -171,10 +173,12 @@ class _HomePageState extends State<HomePage> {
                                 onPressed:
                                     () {}, // Pressing Button while Loading should not do anything
                               )
-                            : RaisedButton(
-                                color: kPurple,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5)),
+                            : ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: kPurple,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5)),
+                                ),
                                 child: Text(
                                   'Create Short URL',
                                   style: TextStyle(

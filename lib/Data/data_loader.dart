@@ -10,7 +10,7 @@ class DataLoader {
   Map<String, dynamic> generalDataMap = Map();
 
   load() {
-    loadDeviceData();
+     loadDeviceData();
     loadOSData();
     loadSocialMediaData();
     loadBrowserData();

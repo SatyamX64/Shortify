@@ -64,7 +64,7 @@ class URLCard extends StatelessWidget {
                                   color: Colors.white),
                             ),
                           );
-                          Scaffold.of(context).showSnackBar(snackBar);
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         });
                       }),
                 ),
@@ -100,7 +100,7 @@ class URLCard extends StatelessWidget {
             onTap: () async {
               var connectivityResult = await Connectivity().checkConnectivity();
               if (connectivityResult == ConnectivityResult.none) {
-                Scaffold.of(context).showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: Colors.blue,
                     content: Text(

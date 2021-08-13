@@ -20,8 +20,6 @@ class NetworkLoader {
 
   Future analytics(url) async {
     http.Response response = await http.get('$_url?key=$_apiKey&stats=$url'); // Correct Request
-    // http.Response response = await http.get(
-    //     '$_url?key=$_apiKey&stats=https://cutt.ly/5dDAfYi'); // Fake Req created temporarily  to save state
     return response;
   }
 }

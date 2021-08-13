@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData themeData = ThemeData(
   fontFamily: 'Sen',
   primaryColor: kPurple,
+  snackBarTheme: SnackBarThemeData(backgroundColor: kPurple),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     isDense: true,
@@ -30,4 +31,4 @@ TextStyle kTextFieldContentStyle = TextStyle(
   fontWeight: FontWeight.w700,
 );
 
-Color kPurple = Color(0xFF592A63);
+Color kPurple = const Color(0xFF592A63);
